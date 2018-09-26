@@ -1,0 +1,48 @@
+logging:
+  appenders:
+  - type: console
+    threshold: DEBUG
+    logFormat: '[%d] [%-5level] [%X{Trace-Token}] %logger{36} - %msg%n'
+  loggers:
+    com.sda.workbench:
+      level: DEBUG
+    org.hibernate:
+      level: WARN
+    com.mongodb:
+      level: WARN
+    org.glassfish.jersey:
+      level: ERROR
+    org.apache.kafka:
+      level: WARN
+
+server:
+  rootPath: /test-kafka-consumer/api/*
+
+topics:
+  test-event-topic: ${KAFKA_CONSUMER_TEST_EVENT_TOPIC}
+  test-error-topic: ${KAFKA_CONSUMER_TEST_ERROR_TOPIC}
+
+kafka:
+  brokers:
+    - server: ${KAFKA_BROKER_HOST_1}
+      port: ${KAFKA_BROKER_PORT}
+    - server: ${KAFKA_BROKER_HOST_2}
+      port: ${KAFKA_BROKER_PORT}
+    - server: ${KAFKA_BROKER_HOST_3}
+      port: ${KAFKA_BROKER_PORT}
+    - server: ${KAFKA_BROKER_HOST_4}
+      port: ${KAFKA_BROKER_PORT}
+    - server: ${KAFKA_BROKER_HOST_5}
+      port: ${KAFKA_BROKER_PORT}
+  security:
+      user: ${SECRET_KAFKA_USERNAME}
+      password: ${SECRET_KAFKA_PASSWORD}
+      protocol: ${KAFKA_SECURITY_PROTOCOL}
+  threads: 1
+  group: test-kafka-consumer
+  autoCommit: true
+  autoCommitInterval: 1000
+  autoOffsetReset: earliest
+  waitBeforeSendMs: 0
+  requestAckMode: all
+  sendRetries: 0

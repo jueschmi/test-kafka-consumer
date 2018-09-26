@@ -1,0 +1,3 @@
+use document_ods_db
+db.createCollection('Document')
+db.createUser({user: 'dbuser', pwd: 'sda123', roles:[{role:'dbOwner',db:'document_ods_db'}], mechanisms: [ "SCRAM-SHA-1" ] })
