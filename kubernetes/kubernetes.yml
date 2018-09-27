@@ -1,0 +1,194 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: %FEATURE%test-kafka-consumer
+  namespace: %NAMESPACE%
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: %FEATURE%document-ods
+        serverpod: %FEATURE%test-kafka-consumer
+    spec:
+      imagePullSecrets:
+      - name: cluster-registry-bluemix
+      containers:
+      - name: %FEATURE%test-kafka-consumer
+        image: %DOCKER_REGISTRY%/%DOCKER_REPOSITORY%/test-kafka-consumer:%IMAGE_TAG%
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MONGO_DB_HOSTS
+          value: "%FEATURE%document-ods-mongodb:27017"
+        - name: MONGO_DB_NAME
+          value: "document_ods_db"
+        - name: MONGO_DB_USER
+          value: "dbuser"
+        - name: MONGO_DB_PASSWORD
+          value: "sda123"
+        - name: MONGO_DB_OPTIONS
+          value: ""
+        - name: S3_ENDPOINT
+          value: "http://%FEATURE%document-ods-minio:9000"
+        - name: S3_REGION
+          value: ""
+        - name: S3_ACCESS_KEY
+          value: "sdase"
+        - name: S3_SECRET_KEY
+          value: "test1234"
+        - name: S3_BUCKET
+          value: "documents"
+        - name: KAFKA_CONSUMER_DOCUMENT_ODS_EVENT_TOPIC
+          value: "%FEATURE%document-ods-event-topic"
+        - name: KAFKA_CONSUMER_DOCUMENT_ODS_EEROR_TOPIC
+          value: "%FEATURE%document-ods-error-topic"
+        - name: KAFKA_SECURITY_PROTOCOL
+          value: SASL_SSL
+        - name: KAFKA_BROKER_HOST_1
+          value: "kafka01-prod01.messagehub.services.eu-de.bluemix.net"
+        - name: KAFKA_BROKER_HOST_2
+          value: "kafka02-prod01.messagehub.services.eu-de.bluemix.net"
+        - name: KAFKA_BROKER_HOST_3
+          value: "kafka03-prod01.messagehub.services.eu-de.bluemix.net"
+        - name: KAFKA_BROKER_HOST_4
+          value: "kafka04-prod01.messagehub.services.eu-de.bluemix.net"
+        - name: KAFKA_BROKER_HOST_5
+          value: "kafka05-prod01.messagehub.services.eu-de.bluemix.net"
+        - name: KAFKA_BROKER_PORT
+          value: '9093'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: %FEATURE%document-ods
+  name: %FEATURE%test-kafka-consumer
+  namespace: %NAMESPACE%
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    serverpod: %FEATURE%test-kafka-consumer
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: %FEATURE%test-kafka-consumer
+  namespace: %NAMESPACE%
+spec:
+  rules:
+  - host: %URL%.intern.test.sda-se.com
+    http:
+      paths:
+      - backend:
+          serviceName: %FEATURE%test-kafka-consumer
+          servicePort: 8080
+        path: /
+  - host: minio.%URL%.intern.test.sda-se.com
+    http:
+      paths:
+      - backend:
+          serviceName: %FEATURE%document-ods-minio
+          servicePort: 9000
+        path: /
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: %FEATURE%document-ods-mongodb
+  namespace: %NAMESPACE%
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: %FEATURE%document-ods-mongodb
+        serverpod: %FEATURE%document-ods-mongodb
+    spec:
+      imagePullSecrets:
+      - name: cluster-registry-bluemix
+      containers:
+      - name: %FEATURE%document-ods-mongodb
+        image: %DOCKER_REGISTRY%/%DOCKER_REPOSITORY%/sda-mongo:4.0.0
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            memory: 128Mi
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGODB_DATABASE
+          value: document_ods_db
+        - name: MONGODB_USER
+          value: dbuser
+        - name: MONGODB_PASS
+          value: sda123
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: %FEATURE%document-ods-mongodb
+  name: %FEATURE%document-ods-mongodb
+  namespace: %NAMESPACE%
+spec:
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    serverpod: %FEATURE%document-ods-mongodb
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: %FEATURE%document-ods-minio
+  namespace: %NAMESPACE%
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: %FEATURE%document-ods
+        serverpod: %FEATURE%document-ods-minio
+    spec:
+      containers:
+      - name: %FEATURE%document-ods-minio
+        image: minio/minio:latest
+        args:
+        - server
+        - /storage
+        ports:
+        - containerPort: 9000
+        env:
+        - name: OBJECT_STORAGE_NAME
+          value: document_ods_os
+        - name: MINIO_ACCESS_KEY
+          value: sdase
+        - name: MINIO_SECRET_KEY
+          value: test1234
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: %FEATURE%document-ods
+  name: %FEATURE%document-ods-minio
+  namespace: %NAMESPACE%
+spec:
+  ports:
+  - port: 9000
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    serverpod: %FEATURE%document-ods-minio
+  type: ClusterIP

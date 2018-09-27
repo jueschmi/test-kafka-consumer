@@ -1,0 +1,11 @@
+{
+  "namespace":"com.sda.avro.schema.dods",
+  "type":"record",
+  "name":"SoRKey",
+  "fields": [
+    {
+      "name":"DOCID",
+      "type":"string"
+    }
+  ]
+}

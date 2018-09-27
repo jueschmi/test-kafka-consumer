@@ -1,0 +1,15 @@
+{
+  "namespace":"com.sda.avro.schema.dods",
+  "type":"record",
+  "name":"DocumentODSEvent",
+  "fields": [
+    {
+      "name":"type",
+      "type": "DocumentODSEventType"
+    },
+    {
+      "name":"externalId",
+      "type":"SoRKey"
+    }
+  ]
+}
