@@ -18,7 +18,8 @@ function replaceVal () {
 echo -e "${BLUE}[BUILD-SERVICE]${NC} Debugging is enabled per default, use localhost:8790 to connect to container."
 
 # clean build
-./gradlew clean build test iT installDist
+#./gradlew clean build test iT installDist
+./gradlew clean build installDist
 
 # enable debug
 sed -i '' 's/DEFAULT_JVM_OPTS=""/DEFAULT_JVM_OPTS="-Xdebug -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n"/g' build/install/test-kafka-consumer/bin/test-kafka-consumer

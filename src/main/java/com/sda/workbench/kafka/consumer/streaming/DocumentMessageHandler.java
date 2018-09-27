@@ -2,7 +2,8 @@ package com.sda.workbench.kafka.consumer.streaming;
 
 import javax.inject.Inject;
 
-import com.sda.workbench.kafka.consumer.streaming.model.DocumentODSEvent;
+//import com.sda.workbench.kafka.consumer.streaming.model.DocumentODSEvent;
+import com.sda.avro.schema.dods.DocumentODSEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

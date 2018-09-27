@@ -3,7 +3,6 @@ package com.sda.workbench.kafka.consumer;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.sda.workbench.kafka.consumer.document.rest.TestKafkaConsumerEndpoint;
 import com.sda.workbench.kafka.consumer.streaming.DocumentMessageHandler;
-import com.sda.workbench.kafka.consumer.streaming.KafkaDeserializer;
 import com.sdase.framework.dropwizard.weld.WeldBundle;
 import com.sdase.framework.kafka.bundle.KafkaBundle;
 import io.dropwizard.Application;
@@ -51,9 +50,7 @@ public class TestKafkaConsumerApplication extends Application<AppConfiguration> 
       BeanConfig config = new BeanConfig();
       config.setScan(true);
 
-      kafkaBundle.registerStringKeyMessageHandler(configuration.getTopics().testEventTopic,
-            new KafkaDeserializer(), new DocumentMessageHandler());
-
+      kafkaBundle.registerAvroMessageHandler(configuration.getTopics().testEventTopic, new DocumentMessageHandler());
    }
 
 }
