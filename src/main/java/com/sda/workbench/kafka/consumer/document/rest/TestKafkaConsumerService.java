@@ -5,14 +5,11 @@ import com.sda.workbench.kafka.consumer.document.rest.model.DocumentRest;
 import com.sdase.framework.mapping.jaxrs.fields.FieldFiltered;
 import io.swagger.annotations.*;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("kafka-consumer")
+@Path("kafka")
 @Api
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -31,4 +28,8 @@ public interface TestKafkaConsumerService extends TestKafkaConsumerFacade {
    @Produces(MediaType.APPLICATION_JSON)
    Response checkKafkaMessages();
 
-   }
+   @POST
+   @Path("/testmessage")
+   Response generateKafkaMessage();
+
+}

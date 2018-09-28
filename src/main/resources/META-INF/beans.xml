@@ -3,7 +3,7 @@
     xmlns:weld="http://jboss.org/schema/weld/beans" bean-discovery-mode="all">
   
   	<weld:scan>
-        <weld:include name="com.sdase.dds.ods.**" />
+        <weld:include name="com.sda.workbench.kafka.consumer.**" />
     </weld:scan>
    
     <interceptors>

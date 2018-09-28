@@ -22,7 +22,7 @@ services:
       - KAFKA_BROKER_HOST_4=kafka-broker
       - KAFKA_BROKER_HOST_5=kafka-broker
       - KAFKA_BROKER_PORT=9092
-      - KAFKA_SCHEMAREGISTRY_HOST=kafka-schema-rgistry
+      - KAFKA_SCHEMAREGISTRY_HOST=kafka-schema-registry
       - KAFKA_SCHEMAREGISTRY_PORT=8081
 
 
