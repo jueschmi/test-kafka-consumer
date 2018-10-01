@@ -70,7 +70,7 @@ schemaRegistry {
     }
 
     download {
-        subject('test-event-topic-value', 'build/schema/downloaded/avro')
+        subject('test-event-topic-value', 'src/main/avro')
     }
 }
 
@@ -97,8 +97,8 @@ sourceSets {
 }
 
 task generateAvro(type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask, dependsOn: 'downloadSchemasTask') {
-    source("build/schema/downloaded/avro")
-    outputDir = file("build/schema/generated/avro")
+    source("src/main/avro")
+    outputDir = file("build/generated-main-avro-java")
 }
 
 compileJava.source(generateAvro.outputs)
