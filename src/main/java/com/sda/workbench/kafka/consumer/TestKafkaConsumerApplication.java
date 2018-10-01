@@ -3,6 +3,8 @@ package com.sda.workbench.kafka.consumer;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.sda.avro.schema.dods.DocumentODSEvent;
 import com.sda.workbench.kafka.consumer.document.rest.TestKafkaConsumerEndpoint;
+import com.sda.workbench.kafka.consumer.events.DocumentEventRepository;
+import com.sda.workbench.kafka.consumer.events.DocumentEventRepositoryImpl;
 import com.sda.workbench.kafka.consumer.streaming.DocumentMessageHandler;
 import com.sda.workbench.kafka.consumer.streaming.KafkaTopic;
 import com.sdase.framework.dropwizard.weld.WeldBundle;
@@ -22,6 +24,7 @@ import org.zapodot.hystrix.bundle.HystrixBundle;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class TestKafkaConsumerApplication extends Application<AppConfiguration> {
@@ -59,10 +62,12 @@ public class TestKafkaConsumerApplication extends Application<AppConfiguration> 
       kafkaBundle.registerAvroMessageHandler(configuration.getTopics().testEventTopic, new DocumentMessageHandler());
 
       producer = kafkaBundle.getAvroProducerForTopic(configuration.getTopics().testEventTopic);
+
    }
 
    @Produces
    MessageProducer<String, DocumentODSEvent> createMessageProducer() {
       return producer;
    }
+
 }

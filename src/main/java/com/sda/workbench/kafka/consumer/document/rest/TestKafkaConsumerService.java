@@ -1,5 +1,6 @@
 package com.sda.workbench.kafka.consumer.document.rest;
 
+import com.sda.avro.schema.dods.DocumentODSEvent;
 import com.sda.workbench.kafka.consumer.TestKafkaConsumerFacade;
 import com.sda.workbench.kafka.consumer.document.rest.model.DocumentRest;
 import com.sdase.framework.mapping.jaxrs.fields.FieldFiltered;
@@ -8,6 +9,7 @@ import io.swagger.annotations.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("kafka")
 @Api
@@ -26,7 +28,13 @@ public interface TestKafkaConsumerService extends TestKafkaConsumerFacade {
          @ApiResponse(code = 404, message = "The requested document was not found.", response = DocumentRest.class) })
    @FieldFiltered
    @Produces(MediaType.APPLICATION_JSON)
-   Response checkKafkaMessages();
+   Response checkKafkaMessage();
+
+   @GET
+   @Path("/checkmessages")
+   @Produces(MediaType.APPLICATION_JSON)
+   List<String> checkKafkaMessages();
+
 
    @POST
    @Path("/testmessage")
