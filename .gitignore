@@ -136,3 +136,5 @@ gradle-app.setting
 
 # End of https://www.gitignore.io/api/osx,macos,gradle,java,eclipse
 
+# Ignore donwloaded schema files
+/src/main/avro/

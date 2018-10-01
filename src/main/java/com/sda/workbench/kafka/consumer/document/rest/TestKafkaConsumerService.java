@@ -1,6 +1,5 @@
 package com.sda.workbench.kafka.consumer.document.rest;
 
-import com.sda.avro.schema.dods.DocumentODSEvent;
 import com.sda.workbench.kafka.consumer.TestKafkaConsumerFacade;
 import com.sda.workbench.kafka.consumer.document.rest.model.DocumentRest;
 import com.sdase.framework.mapping.jaxrs.fields.FieldFiltered;
@@ -38,6 +37,6 @@ public interface TestKafkaConsumerService extends TestKafkaConsumerFacade {
 
    @POST
    @Path("/testmessage")
-   Response generateKafkaMessage();
+   Response generateKafkaMessage(@ApiParam(type = "tpye of the generated message") @DefaultValue("create") @QueryParam("type") String messagetype);
 
 }

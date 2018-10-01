@@ -65,7 +65,12 @@ sonarqube {
 schemaRegistry {
     url = 'http://localhost:8081'
     register {
-        subject('DocumentODSEvent', 'src/main/avro/DocumentODSEvent.avsc', ['src/main/avro/SoRKey.avsc', 'src/main/avro/DocumentODSEventType.avsc'])
+        subject('test-event-topic-value', 'src/main/avro/DocumentODSEvent.avsc',
+                ['src/main/avro/DocumentODSEventType.avsc', 'src/main/avro/SoRKey.avsc'])
+    }
+
+    download {
+        subject('test-event-topic-value', 'build/schema/downloaded/avro')
     }
 }
 
@@ -90,6 +95,14 @@ sourceSets {
         output.resourcesDir = output.classesDir
     }
 }
+
+task generateAvro(type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask, dependsOn: 'downloadSchemasTask') {
+    source("build/schema/downloaded/avro")
+    outputDir = file("build/schema/generated/avro")
+}
+
+compileJava.source(generateAvro.outputs)
+
 
 project.ext {
     dropwizardVersion = '1.3.2'

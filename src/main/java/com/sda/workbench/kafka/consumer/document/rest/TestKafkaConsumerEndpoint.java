@@ -1,15 +1,16 @@
 package com.sda.workbench.kafka.consumer.document.rest;
 
-import com.sda.avro.schema.dods.DocumentODSEvent;
-import com.sda.avro.schema.dods.DocumentODSEventType;
-import com.sda.avro.schema.dods.SoRKey;
+import com.sda.avro.schema.dods.*;
 import com.sda.workbench.kafka.consumer.AppConfiguration;
 import com.sda.workbench.kafka.consumer.events.DocumentEventRepository;
 import com.sdase.framework.kafka.bundle.KafkaBundle;
 import com.sdase.framework.kafka.bundle.producer.MessageProducer;
 
 import javax.inject.Inject;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,12 +41,35 @@ public class TestKafkaConsumerEndpoint implements TestKafkaConsumerService {
    }
 
    @Override
-   public Response generateKafkaMessage() {
+   public Response generateKafkaMessage(String messagetype) {
 
       if (producer != null) {
-         String uuid = UUID.randomUUID().toString();
-         DocumentODSEvent event = DocumentODSEvent.newBuilder().setType(DocumentODSEventType.document_create)
-                 .setExternalId(SoRKey.newBuilder().setDOCID(uuid).build()).build();
+         final String uuid = UUID.randomUUID().toString();
+         DocumentODSEvent event = null;
+         switch (messagetype) {
+            case "create":
+               ArrayList<String> classificationIds = new ArrayList();
+               classificationIds.add("1");
+               classificationIds.add("2");
+
+               event = DocumentODSEvent.newBuilder().setType(DocumentODSEventType.document_create)
+                       .setPayload(DocumentODSCreate.newBuilder().setUuid(uuid).setExternalId(SoRKey.newBuilder().setDOCID(uuid).build())
+                               .setTitle("Test Document Title")
+                               .setCategory("Haftpflicht")
+                               .setClassificationType("classfication type???")
+                               .setClassificationIds(classificationIds)
+                               .setInOutBound(1)
+                               .setRelevantPartnerId("123456")
+                               .setBusinessTransactionId("123").build()).build();
+               break;
+            case "delete":
+               event = DocumentODSEvent.newBuilder().setType(DocumentODSEventType.document_delete)
+                       .setPayload(DocumentODSDelete.newBuilder().setUuid(uuid).setExternalId(SoRKey.newBuilder().setDOCID(uuid).build())
+                               .build()).build();
+               break;
+
+
+         }
 
          producer.send(uuid, event);
       }
