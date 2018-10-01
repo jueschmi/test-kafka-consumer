@@ -1,14 +1,10 @@
 package com.sda.workbench.kafka.consumer.document.rest;
 
 import com.sda.avro.schema.dods.*;
-import com.sda.workbench.kafka.consumer.AppConfiguration;
 import com.sda.workbench.kafka.consumer.events.DocumentEventRepository;
-import com.sdase.framework.kafka.bundle.KafkaBundle;
 import com.sdase.framework.kafka.bundle.producer.MessageProducer;
 
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +69,13 @@ public class TestKafkaConsumerEndpoint implements TestKafkaConsumerService {
 
          producer.send(uuid, event);
       }
+
+      return Response.ok().build();
+   }
+
+   @Override
+   public Response resetReceivedMessages() {
+      eventRepository.deleteAll();
 
       return Response.ok().build();
    }

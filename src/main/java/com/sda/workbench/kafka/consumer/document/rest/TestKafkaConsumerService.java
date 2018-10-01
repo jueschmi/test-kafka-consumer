@@ -39,4 +39,7 @@ public interface TestKafkaConsumerService extends TestKafkaConsumerFacade {
    @Path("/testmessage")
    Response generateKafkaMessage(@ApiParam(type = "tpye of the generated message") @DefaultValue("create") @QueryParam("type") String messagetype);
 
+   @POST
+   @Path("/resetmessages")
+   Response resetReceivedMessages();
 }

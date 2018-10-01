@@ -29,4 +29,8 @@ public class DocumentEventRepositoryImpl implements DocumentEventRepository {
         return event;
     }
 
+    @Override
+    public void deleteAll() {
+        events.clear();
+    }
 }

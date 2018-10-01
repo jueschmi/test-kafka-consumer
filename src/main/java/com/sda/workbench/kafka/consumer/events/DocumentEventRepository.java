@@ -9,4 +9,6 @@ public interface DocumentEventRepository {
     List<DocumentODSEvent> findAll();
 
     DocumentODSEvent save(DocumentODSEvent event);
+
+    void deleteAll();
 }
