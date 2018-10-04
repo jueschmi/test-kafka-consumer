@@ -1,7 +1,9 @@
 package com.sda.workbench.kafka.consumer.document.rest;
 
 import com.sda.avro.schema.dods.*;
+import com.sda.workbench.kafka.consumer.document.rest.model.DocumentRest;
 import com.sda.workbench.kafka.consumer.events.DocumentEventRepository;
+import com.sda.workbench.kafka.consumer.mapping.DocumentODSMapper;
 import com.sdase.framework.kafka.bundle.producer.MessageProducer;
 
 import javax.inject.Inject;
@@ -18,6 +20,9 @@ public class TestKafkaConsumerEndpoint implements TestKafkaConsumerService {
    private final DocumentEventRepository eventRepository;
 
    @Inject
+   private DocumentODSMapper odsMapper;
+
+   @Inject
    public TestKafkaConsumerEndpoint(final MessageProducer<String, DocumentODSEvent> producer, final DocumentEventRepository eventRepository) {
       this.producer = producer;
       this.eventRepository =  eventRepository;
@@ -29,12 +34,22 @@ public class TestKafkaConsumerEndpoint implements TestKafkaConsumerService {
    }
 
    @Override
-   public List<String> checkKafkaMessages() {
+   public List<DocumentRest> checkKafkaMessages() {
       List<DocumentODSEvent> result = eventRepository.findAll();
 
-      List<String> collect = result.stream().map(s -> s.toString()).collect(Collectors.toList());
+      if (!result.isEmpty()) {
 
-      return collect;
+         List<DocumentRest> restDocs = result.stream()
+                 .map(d -> odsMapper.mapToRestModel2(d))
+                 .collect(Collectors.toList());
+
+         return restDocs;
+      }
+
+      return new ArrayList<DocumentRest>();
+
+//      List<String> collect = result.stream().map(s -> s.toString()).collect(Collectors.toList());
+//      return collect;
    }
 
    @Override
