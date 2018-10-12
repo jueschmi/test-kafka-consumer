@@ -86,7 +86,7 @@ public class TestKafkaConsumerEndpoint implements TestKafkaConsumerService {
                                .setClassificationType("classfication type???")
                                .setClassificationIds(classificationIds)
                                .setInOutBound(1)
-                               .setRelevantPartnerId(relevantPartners)
+                               .setRelevantPartners(relevantPartners)
                                .setBusinessTransactionId("123").build()).build();
                break;
             case "delete":

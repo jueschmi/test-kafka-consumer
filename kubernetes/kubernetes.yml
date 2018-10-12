@@ -58,7 +58,16 @@ spec:
           value: "kafka05-prod01.messagehub.services.eu-de.bluemix.net"
         - name: KAFKA_BROKER_PORT
           value: '9093'
-
+        - name: SECRET_KAFKA_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: kafka-managed
+              key: username
+        - name: SECRET_KAFKA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kafka-managed
+              key: password
 ---
 apiVersion: v1
 kind: Service

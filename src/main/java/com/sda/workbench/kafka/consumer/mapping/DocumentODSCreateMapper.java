@@ -38,7 +38,7 @@ public class DocumentODSCreateMapper extends CustomMapper<DocumentODSCreate, Doc
 
         b.setExternalId(new SoRKey(sorKeyElements));
 
-        List<com.sda.workbench.kafka.consumer.document.rest.model.RelevantPartner> relevantPartners = a.getRelevantPartnerId()
+        List<com.sda.workbench.kafka.consumer.document.rest.model.RelevantPartner> relevantPartners = a.getRelevantPartners()
                 .stream()
                 .map(partner -> convertDODSRelevantPartner(partner))
                 .collect(Collectors.toList());

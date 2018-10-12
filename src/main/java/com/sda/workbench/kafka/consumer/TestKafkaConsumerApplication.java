@@ -1,12 +1,10 @@
 package com.sda.workbench.kafka.consumer;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sda.avro.schema.dods.DocumentODSEvent;
 import com.sda.workbench.kafka.consumer.document.rest.TestKafkaConsumerEndpoint;
-import com.sda.workbench.kafka.consumer.events.DocumentEventRepository;
-import com.sda.workbench.kafka.consumer.events.DocumentEventRepositoryImpl;
 import com.sda.workbench.kafka.consumer.streaming.DocumentMessageHandler;
-import com.sda.workbench.kafka.consumer.streaming.KafkaTopic;
 import com.sdase.framework.dropwizard.weld.WeldBundle;
 import com.sdase.framework.kafka.bundle.KafkaBundle;
 import com.sdase.framework.kafka.bundle.producer.MessageProducer;
@@ -24,7 +22,6 @@ import org.zapodot.hystrix.bundle.HystrixBundle;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 
 @ApplicationScoped
 public class TestKafkaConsumerApplication extends Application<AppConfiguration> {
@@ -55,6 +52,7 @@ public class TestKafkaConsumerApplication extends Application<AppConfiguration> 
       environment.jersey().register(TestKafkaConsumerEndpoint.class);
       environment.jersey().enable(ServerProperties.LOCATION_HEADER_RELATIVE_URI_RESOLUTION_DISABLED);
       environment.getObjectMapper().setSerializationInclusion(Include.NON_NULL);
+      environment.getObjectMapper().registerModule(new JavaTimeModule());
 
       BeanConfig config = new BeanConfig();
       config.setScan(true);

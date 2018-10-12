@@ -1,10 +1,9 @@
 package com.sda.workbench.kafka.consumer.document.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -20,10 +19,12 @@ public class DocumentRestCreate extends DocumentRest {
     @ApiModelProperty(value = "The type of document.", example = "Schadenmeldung, Police , Rechnung")
     private String type;
 
-    @ApiModelProperty(value = "Date of the document printed on the document", example = "2017-11-11")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @ApiModelProperty(value = "Date of the document printed on the document.", dataType = "java.time.ZonedDateTime", example = "2017-01-01T07:54:30.604Z[UTC]")
     private ZonedDateTime date;
 
-    @ApiModelProperty(value = "Date of receipt at VU", example = "2017-12-12")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @ApiModelProperty(value = "Date when document was receipted at VU.", dataType = "java.time.ZonedDateTime", example = "2017-01-01T07:54:30.604Z[UTC]")
     private ZonedDateTime dateIn;
 
     @ApiModelProperty(value = "All documents belonging to a document bundle have the same unique Id", example = "12dw1w-12s-")
