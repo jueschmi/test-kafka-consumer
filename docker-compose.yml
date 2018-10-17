@@ -13,6 +13,18 @@ services:
     environment:
       - KAFKA_CONSUMER_TEST_EVENT_TOPIC=test-event-topic
       - KAFKA_PRODUCER_TEST_ERROR_TOPIC=test-error-topic
+      - KAFKA_SECURITY_PROTOCOL=SASL_SSL
+#      - SECRET_KAFKA_USERNAME='wMNvfG4AgllefaD8'
+#      - SECRET_KAFKA_PASSWORD='4mMUQBhpZQ69xst1DElzwvB37ouHfNg6'
+#      - KAFKA_BROKER_HOST_1=kafka01-prod01.messagehub.services.eu-de.bluemix.net
+#      - KAFKA_BROKER_HOST-2=kafka02-prod01.messagehub.services.eu-de.bluemix.net
+#      - KAFKA_BROKER_HOST_3=kafka03-prod01.messagehub.services.eu-de.bluemix.net
+#      - KAFKA_BROKER_HOST_4=kafka04-prod01.messagehub.services.eu-de.bluemix.net
+#      - KAFKA_BROKER_HOST_5=kafka05-prod01.messagehub.services.eu-de.bluemix.net
+#      - KAFKA_BROKER_PORT=9093
+#      - KAFKA_SCHEMAREGISTRY_HOST=schema-registry.sandbox.eu-de.containers.appdomain.cloud
+#      - KAFKA_SCHEMAREGISTRY_PORT=
+
       - KAFKA_SECURITY_PROTOCOL=PLAINTEXT
       - SECRET_KAFKA_USERNAME=
       - SECRET_KAFKA_PASSWORD=
@@ -24,7 +36,6 @@ services:
       - KAFKA_BROKER_PORT=9092
       - KAFKA_SCHEMAREGISTRY_HOST=kafka-schema-registry
       - KAFKA_SCHEMAREGISTRY_PORT=8081
-
 
     networks:
      - sda

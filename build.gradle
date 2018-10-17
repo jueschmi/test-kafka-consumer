@@ -12,9 +12,9 @@ buildscript {
         }
     }
     dependencies {
-        classpath group: 'com.sdase.gradle', name: 'eclipse-settings' , version: '0.+'
+        classpath group: 'com.sdase.gradle', name: 'eclipse-settings', version: '0.+'
         classpath group: 'com.commercehub.gradle.plugin', name: 'gradle-avro-plugin', version: '0.15.+'
-        classpath group: 'gradle.plugin.com.github.imflog', name: 'kafka-schema-registry-gradle-plugin', version:'0.4.0'
+        classpath group: 'gradle.plugin.com.github.imflog', name: 'kafka-schema-registry-gradle-plugin', version: '0.4.0'
     }
 }
 

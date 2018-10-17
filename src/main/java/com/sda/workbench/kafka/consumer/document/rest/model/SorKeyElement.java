@@ -1,26 +1,27 @@
 package com.sda.workbench.kafka.consumer.document.rest.model;
 
 public class SorKeyElement {
-    private String key;
-    private String value;
 
-    public SorKeyElement() {
-    }
+  private String key;
+  private String value;
 
-    public SorKeyElement(String key, String value) {
-        this.key = key;
-        this.setValue(value);
-    }
+  public SorKeyElement() {
+  }
 
-    public String getKey() {
-        return this.key;
-    }
+  public SorKeyElement(String key, String value) {
+    this.key = key;
+    this.setValue(value);
+  }
 
-    public String getValue() {
-        return this.value;
-    }
+  public String getKey() {
+    return this.key;
+  }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+  public String getValue() {
+    return this.value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
 }
