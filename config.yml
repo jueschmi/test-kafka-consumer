@@ -38,7 +38,7 @@ kafka:
       user: ${SECRET_KAFKA_USERNAME}
       password: ${SECRET_KAFKA_PASSWORD}
       protocol: ${KAFKA_SECURITY_PROTOCOL}
-  schemaregistry:
+  schemaRegistry:
       server: ${KAFKA_SCHEMAREGISTRY_HOST}
       port: ${KAFKA_SCHEMAREGISTRY_PORT}
   threads: 1
