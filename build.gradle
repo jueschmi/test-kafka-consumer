@@ -65,7 +65,8 @@ sonarqube {
 schemaRegistry {
     url = 'http://localhost:8081'
     download {
-        subject('test-event-topic-value', 'src/main/avro')
+        subject('com.sdase.avro.schema.dods.DocumentODSEvent', 'src/main/avro')
+//        subject('test-event-topic-value', 'src/main/avro')
     }
 }
 
